@@ -23,10 +23,28 @@ export default {
       const reader = new FileReader();
 
       reader.onload = function(e) {
-        //vm.text = e.target.result; //Sets the text area to be equal the data read from file
         sessionStorage.setItem('CSVdata', e.target.result); //Saves the uploaded data into sessionStorage
+        vm.csvEditor(e.target.result);
       } 
       reader.readAsText(file);
+    },
+    csvEditor: function(csvText){
+      //Creates an array of elements from the csv file
+      var array = csvText.replace(/\n/g, " ").split(" "); //Replaces a newline with whitespace so a new element can be created for each row
+      console.log("The Array: " + array);
+      console.log(array[0]);
+
+      sessionStorage.setItem('Array', JSON.stringify(array));
+
+      // const [name, container, size, quantity, price] = array[0].split(',');
+      // console.log(name);
+      // console.log(container);
+      // console.log(size);
+      // console.log(quantity);
+      // console.log(price);
+      // var array2 = array[0].split(',');
+      // console.log(array2[1]);
+
     },
     confirmEntry: function() {
       console.log("Data saved to session storage");

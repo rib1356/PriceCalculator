@@ -1,7 +1,6 @@
 <template>
   <label class="text-reader">
-    <input type="file" @change="loadTextFromFile">
-    <!-- <textarea rows="15" v-model="text"></textarea> -->
+    <input type="file" @change="handleFileSelect">
     <button v-on:click="confirmEntry">Confirm Entry</button> <br>
     <button v-on:click="manualEntry">Enter Manually</button> <br>
   </label>
@@ -12,40 +11,57 @@ export default {
   name: 'TextReader',
   data() {
       return{
-          text: ''
+        //Nothing
       }
   },  
   methods: {
-    loadTextFromFile : function(ev) {
-      //The view model - allows for accessing data when in another scope
+    handleFileSelect: function(evt) {
+     
       var vm = this;
-      const file = ev.target.files[0]; //Read the file passed from the input
-      const reader = new FileReader();
+      var files = evt.target.files;  //FileList object
 
-      reader.onload = function(e) {
-        sessionStorage.setItem('CSVdata', e.target.result); //Saves the uploaded data into sessionStorage
-        vm.csvEditor(e.target.result);
-      } 
-      reader.readAsText(file);
+		  // Loop through the FileList 
+		  for (var i = 0, f; f = files[i]; i++) {
+		    var reader = new FileReader();
+		    // Closure to capture the file information.
+		    reader.onload = (function(theFile) {
+			  return function(e) {
+			  //call the parse function with the proper line terminator and cell terminator
+        var list = vm.parseCSVtoArrayofObjects(e.target.result, '\n', ',');
+        sessionStorage.setItem('myList', JSON.stringify(list)); //Save information as a string to sessionStorage
+			};
+		  })(f);
+		  // Read the file as text
+      reader.readAsText(f); 
+    }
     },
-    csvEditor: function(csvText){
-      //Creates an array of elements from the csv file
-      var array = csvText.replace(/\n/g, " ").split(" "); //Replaces a newline with whitespace so a new element can be created for each row
-      console.log("The Array: " + array);
-      console.log(array[0]);
+    parseCSVtoArrayofObjects: function(text, lineTerminator, cellTerminator){
+    
+    var vm = this;
+    var listOfObjects = [];
+    var lines = text.split(lineTerminator);  //break the lines apart into individual items
+    console.log(lines);
 
-      sessionStorage.setItem('Array', JSON.stringify(array));
-
-      // const [name, container, size, quantity, price] = array[0].split(',');
-      // console.log(name);
-      // console.log(container);
-      // console.log(size);
-      // console.log(quantity);
-      // console.log(price);
-      // var array2 = array[0].split(',');
-      // console.log(array2[1]);
-
+		for(var line = 0; line<lines.length -1; line++) { //CSV has an EOF with an empty line so this removes last row before saving
+        if (lines[line] != "") {
+		      var newItem = new vm.saleItem();
+          var information = lines[line].split(cellTerminator);
+          newItem.item_id = line;
+		      newItem.name = information[0];
+			    newItem.container = information[1];
+			    newItem.specification = information[2];
+			    newItem.quantity = information[3];
+			    newItem.price = information[4];
+          newItem.comments = information[5];
+			  }
+          var length = listOfObjects.push(newItem);
+    }
+    return listOfObjects;
     },
+    saleItem: function(name,container,specification,quantity,price,comments){
+      //This function defines a sales item
+      var item_id,name,container,specification,quantity,price,comments;
+    },   
     confirmEntry: function() {
       console.log("Data saved to session storage");
       this.$router.push('editPage'); //After button press move to next page
@@ -55,8 +71,13 @@ export default {
       this.$router.push('editPage');
     }
   },
-  mounted() { //Part of the view life cycle - Allows for code execution before load
-    this.text = sessionStorage.getItem('CSVdata'); //Sets the text box to data saved in sessionStorage
+  mounted(){
+    // Check for the various File API support.
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+      // Great success! All the File APIs are supported.
+    } else {
+      alert('The File APIs are not fully supported in this browser.');
+    }
   }
 };
 </script>

@@ -8,9 +8,14 @@ import 'bootstrap-vue/dist/bootstrap-vue.css' ;
 import TextReader from '@/components/TextReader';
 import EditPage from '@/components/EditPage';
 
-import TableComponent from 'vue-table-component';
+// import TableComponent from 'vue-table-component';
+// Vue.use(TableComponent);
+import VueGoodTablePlugin from 'vue-good-table';
 
-Vue.use(TableComponent);
+// import the styles 
+import 'vue-good-table/dist/vue-good-table.css';
+
+Vue.use(VueGoodTablePlugin);
 
 Vue.use(Router);
 Vue.use(BootstrapVue);

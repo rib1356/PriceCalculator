@@ -1,9 +1,18 @@
 <template>
-  <label class="text-reader">
+  <div class="textReader">
+    <br>
+    <!-- <b-alert variant="success" show>Success Alert</b-alert> -->
+    <b-alert variant="danger"
+             dismissible
+             fade
+             :show="showAlert"
+             @dismissed="showAlert=false">
+      Please upload CSV files only!
+    </b-alert>
     <input type="file" @change="handleFileSelect">
-    <button v-on:click="confirmEntry">Confirm Entry</button> <br>
-    <button v-on:click="manualEntry">Enter Manually</button> <br>
-  </label>
+    <button v-on:click="confirmEntry" :disabled="disabled">Confirm Entry</button> <br>
+    <button v-on:click="clearStorage">Clear Storage</button> <br>
+    </div>
 </template>
 
 <script>
@@ -11,7 +20,8 @@ export default {
   name: 'TextReader',
   data() {
       return{
-        //Nothing
+        showAlert: false,
+        disabled: false
       }
   },  
   methods: {
@@ -19,28 +29,31 @@ export default {
      
       var vm = this;
       var files = evt.target.files;  //FileList object
-
-		  // Loop through the FileList 
-		  for (var i = 0, f; f = files[i]; i++) {
-		    var reader = new FileReader();
-		    // Closure to capture the file information.
-		    reader.onload = (function(theFile) {
-			  return function(e) {
-			  //call the parse function with the proper line terminator and cell terminator
-        var list = vm.parseCSVtoArrayofObjects(e.target.result, '\n', ',');
-        sessionStorage.setItem('myList', JSON.stringify(list)); //Save information as a string to sessionStorage
-			};
-		  })(f);
-		  // Read the file as text
-      reader.readAsText(f); 
-    }
+     
+      if(files[0].name.includes(".csv")){ //Check to make sure only csv files are uploaded
+        this.showAlert = false;
+        this.disabled = false;
+		    for (var i = 0, f; f = files[i]; i++) { // Loop through the FileList 
+		      var reader = new FileReader();
+		      // Closure to capture the file information.
+		      reader.onload = (function(theFile) {
+			    return function(e) {
+            var list = vm.parseCSVtoArrayofObjects(e.target.result, '\n', ','); //call the parse function with the proper line terminator and cell terminator
+            sessionStorage.setItem('myList', JSON.stringify(list)); //Save information as a string to sessionStorage
+			  };
+		    })(f);
+        reader.readAsText(f); 
+      }
+      }else{ //If file is not a csv show an alert and disable to confirmation button
+        this.showAlert = true;
+        this.disabled = true;
+      }
     },
     parseCSVtoArrayofObjects: function(text, lineTerminator, cellTerminator){
     
     var vm = this;
     var listOfObjects = [];
     var lines = text.split(lineTerminator);  //break the lines apart into individual items
-    console.log(lines);
 
 		for(var line = 0; line<lines.length -1; line++) { //CSV has an EOF with an empty line so this removes last row before saving
         if (lines[line] != "") {
@@ -66,9 +79,9 @@ export default {
       console.log("Data saved to session storage");
       this.$router.push('editPage'); //After button press move to next page
     },
-    manualEntry: function() {
+    clearStorage: function() {
       sessionStorage.clear(); //Clear the storage because new data will need to be entered
-      this.$router.push('editPage');
+      console.log("SessionStorage cleared");
     }
   },
   mounted(){

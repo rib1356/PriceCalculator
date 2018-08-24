@@ -1,18 +1,24 @@
 <template>
 	<div id="app">
-    <nav>
+    <div>
+      <b-nav tabs>  
+        <b-nav-item to="/">Home</b-nav-item>
+        <b-nav-item to="/editPage">Edit Page</b-nav-item>
+        <b-nav-item to="/about">About</b-nav-item>
+      </b-nav>
+    </div>
+  <router-view/>
+    <!-- <nav>
       <router-link to="/">Home</router-link>
       <router-link to="/editPage">Edit Page</router-link>
-    </nav>    
-    <br>
-    <router-view/>
+    </nav>     -->
 	</div>
-  
 </template>
 
 <script>
 import TextReader from "@/components/TextReader";
 import EditPage from "@/components/EditPage";       //Does this need to be added here?
+import About from "@/components/About";
 
 export default {
   name: "app",
@@ -23,7 +29,8 @@ export default {
   }, 
   components: {
     TextReader,
-    EditPage
+    EditPage,
+    About
   }
 };
 </script>
@@ -36,6 +43,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 10px;
 }
 </style>

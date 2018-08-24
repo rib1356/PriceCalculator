@@ -32,15 +32,16 @@ export default {
         {
           label: 'Id',
           field: 'id',
-          type: 'number'
+          type: 'number',
+          width: '25px'
         },
         {
           label: 'Name',
-          field: 'name'
+          field: 'name',
         },
         {
           label: 'Container',
-          field: 'container'       
+          field: 'container',       
         },
         {
           label: 'Specification',
@@ -59,7 +60,7 @@ export default {
           headerField: this.totalBuyPrice
         },
         {
-          label: 'Comment',
+          label: 'Substitutes',
           field: 'comments',
           sortable: false,
           globalSearchDisabled: true

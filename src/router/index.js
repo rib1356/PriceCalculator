@@ -12,6 +12,7 @@ import { Nav } from 'bootstrap-vue/es/components';
 import TextReader from '@/components/TextReader';
 import EditPage from '@/components/EditPage';
 import About from '@/components/About';
+import FinalDisplayPage from '@/components/FinalDisplayPage';
 
 //Table
 import VueGoodTablePlugin from 'vue-good-table';
@@ -36,6 +37,11 @@ export default new Router({
       path: '/editPage',
       name: 'EditPage',
       component: EditPage
+    },
+    {
+      path: '/finalPage',
+      name: 'FinalDisplayPage',
+      component: FinalDisplayPage
     },
     {
       path: '/about',

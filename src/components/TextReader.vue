@@ -1,7 +1,6 @@
 <template>
   <div class="textReader">
     <br>
-    <!-- <b-alert variant="success" show>Success Alert</b-alert> -->
     <b-alert variant="danger"
              dismissible
              fade
@@ -21,7 +20,7 @@ export default {
   data() {
       return{
         showAlert: false,
-        disabled: false
+        disabled: false,
       }
   },  
   methods: {

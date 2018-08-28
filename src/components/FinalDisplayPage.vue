@@ -9,8 +9,6 @@
       :search-options="{ enabled: true }"
       :group-options="{ enabled: true, headerPosition: 'bottom' }">
      </vue-good-table>
-     <br>
-     <b-button v-on:click="confirmEntry">Confirm Entry</b-button>
   </div>    
 </template>
 
@@ -38,33 +36,54 @@ export default {
         {
           label: 'Name',
           field: 'name',
+          width: '250px'
         },
         {
           label: 'Container',
-          field: 'container',       
+          field: 'container',      
+          width: '60px' 
         },
         {
           label: 'Specification',
-          field: 'specification'        
+          field: 'specification',
+          width: '50px'   
         },
         {
           label: 'Quantity',
           field: 'quantity',
           type: 'number',
+          width: '35px', 
           headerField: this.totalQuantity
         },
         {
           label: 'Buy Price',
           field: 'buyPrice',
           type: 'decimal',
+          width: '120px',
           headerField: this.totalBuyPrice
         },
         {
           label: 'Substitutes',
           field: 'comments',
           sortable: false,
+          width: '150px',
           globalSearchDisabled: true
-        }
+        },
+        {
+          label: 'Sell price A',
+          field: 'sellPrice',
+          type: 'number',
+        },
+        {
+          label: 'Sell price B',
+          field: 'sellPrice',
+          type: 'number',
+        },
+        {
+          label: 'Sell price C',
+          field: 'sellPrice',
+          type: 'number',
+        },
       ]   
     }
   },
@@ -96,9 +115,6 @@ export default {
       totalBuyPrice += rowObj.children[i].buyPrice;
     }
     return totalBuyPrice;
-    },
-    confirmEntry: function() {
-      this.$router.push('finalPage'); //After button press move to next page
     },
   },
   mounted(){

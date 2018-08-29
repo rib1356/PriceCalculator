@@ -38,7 +38,7 @@ export default {
 		      reader.onload = (function(theFile) {
 			    return function(e) {
             var list = vm.parseCSVtoArrayofObjects(e.target.result, '\n', ','); //call the parse function with the proper line terminator and cell terminator
-            sessionStorage.setItem('myList', JSON.stringify(list)); //Save information as a string to sessionStorage
+            sessionStorage.setItem('itemInfo', JSON.stringify(list)); //Save information as a string to sessionStorage
 			  };
 		    })(f);
         reader.readAsText(f); 

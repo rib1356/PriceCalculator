@@ -28,6 +28,7 @@ export default {
         }
       ],
       items: [],
+      salesPrices: [],
       columns: [
         {
           label: 'Id',
@@ -83,26 +84,46 @@ export default {
       });
     }
     }, //Cant find a way around having these two functions as duplicates as they need to display on seperate columns
-    totalQuantity: function(rowObj) {
-    let totalQuantity = 0;
-    for (let i = 0; i < rowObj.children.length; i++) {
-      totalQuantity += rowObj.children[i].quantity;
+    totalQuantity: function(rowObj) { //Calculate the column totals
+      let totalQuantity = 0;
+      for (let i = 0; i < rowObj.children.length; i++) {
+        totalQuantity += rowObj.children[i].quantity;
     }
     return totalQuantity;
     },
     totalBuyPrice: function(rowObj) {
-    let totalBuyPrice = 0;
-    for (let i = 0; i < rowObj.children.length; i++) {
-      totalBuyPrice += rowObj.children[i].buyPrice;
+      let totalBuyPrice = 0;
+      for (let i = 0; i < rowObj.children.length; i++) {
+        totalBuyPrice += (rowObj.children[i].quantity * rowObj.children[i].buyPrice);
     }
     return totalBuyPrice;
     },
-    confirmEntry: function() {
+    createSalesPrices: function(){
+
+      var itemList = JSON.parse(sessionStorage.getItem('itemInfo'));
+      var listOfObjects = [];
+
+      for(var i = 0; i < itemList.length; i++) { //Loop through the item list
+        var newItemPrices = new this.saleItemPrices(); //Create a new object to hold each of the different price bands of an item
+        newItemPrices.bandA = (itemList[i].price/((100-50)/100)).toFixed(2);  
+        newItemPrices.bandB = (itemList[i].price/((100-40)/100)).toFixed(2);  
+        newItemPrices.bandC = (itemList[i].price/((100-25)/100)).toFixed(2);  
+
+        var length = listOfObjects.push(newItemPrices);
+      }
+        return listOfObjects
+    },
+    saleItemPrices: function(bandA, bandB, bandC){
+      var bandA, bandB, bandC; //Defines the set price bands an item can have
+    },
+    confirmEntry: function() { //Handle the button press
+      var salePricesObject = this.createSalesPrices();
+      sessionStorage.setItem('itemSalePrices', JSON.stringify(salePricesObject))
       this.$router.push('finalPage'); //After button press move to next page
     },
   },
   mounted(){
-    var itemList = JSON.parse(sessionStorage.getItem('myList'));
+    var itemList = JSON.parse(sessionStorage.getItem('itemInfo'));
     this.displayItems(itemList);
   }
 }
@@ -116,7 +137,7 @@ table.vgt-table.vgt-fixed-header {
 }
 
 table.vgt-table.vgt-fixed-header th:last-child {
-    /* Offset for the scrollbar, you may have to adjust this */
+    /* Offset for the scrollbar */
     width: calc(100% + 20px) !important;
 }
 

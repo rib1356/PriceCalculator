@@ -70,25 +70,25 @@ export default {
           globalSearchDisabled: true
         },
         {
-          label: 'Sell price A',
-          field: 'sellPrice',
+          label: 'Sell price A (50%)',
+          field: 'sellPriceA',
           type: 'number',
         },
         {
-          label: 'Sell price B',
-          field: 'sellPrice',
+          label: 'Sell price B (40%)',
+          field: 'sellPriceB',
           type: 'number',
         },
         {
-          label: 'Sell price C',
-          field: 'sellPrice',
+          label: 'Sell price C (25%)',
+          field: 'sellPriceC',
           type: 'number',
         },
       ]   
     }
   },
   methods: {
-    displayItems: function(itemList){
+    displayItems: function(itemList, itemSalePrices){
       for(var i = 0; i < itemList.length; i++) { //Loop through the item list
           //Using "Rows[0]" to first access the parent array so running totals work
           this.rows[0].children.push({ //Push the items into an array and then display them on the table above
@@ -98,7 +98,12 @@ export default {
             specification: itemList[i].specification,
             quantity: parseInt(itemList[i].quantity), //Saving as an integer for table sorting etc
             buyPrice: parseFloat(itemList[i].price),
-            comments: itemList[i].comments
+            comments: itemList[i].comments,
+            //Index of item Sale Prices will always be the same at the items data therefor you are able,
+            //To loop through the different array using the same index to populate the table
+            sellPriceA: itemSalePrices[i].bandA,
+            sellPriceB: itemSalePrices[i].bandB,
+            sellPriceC: itemSalePrices[i].bandC,
       });
     }
     }, //Cant find a way around having these two functions as duplicates as they need to display on seperate columns
@@ -112,14 +117,15 @@ export default {
     totalBuyPrice: function(rowObj) {
     let totalBuyPrice = 0;
     for (let i = 0; i < rowObj.children.length; i++) {
-      totalBuyPrice += rowObj.children[i].buyPrice;
+      totalBuyPrice += (rowObj.children[i].quantity * rowObj.children[i].buyPrice);
     }
     return totalBuyPrice;
     },
   },
   mounted(){
-    var itemList = JSON.parse(sessionStorage.getItem('myList'));
-    this.displayItems(itemList);
+    var itemList = JSON.parse(sessionStorage.getItem('itemInfo'));
+    var itemSalePrices = JSON.parse(sessionStorage.getItem('itemSalePrices'));
+    this.displayItems(itemList, itemSalePrices);
   }
 }
 </script>
@@ -132,7 +138,7 @@ table.vgt-table.vgt-fixed-header {
 }
 
 table.vgt-table.vgt-fixed-header th:last-child {
-    /* Offset for the scrollbar, you may have to adjust this */
+    /* Offset for the scrollbar */
     width: calc(100% + 20px) !important;
 }
 

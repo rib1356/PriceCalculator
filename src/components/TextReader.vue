@@ -81,6 +81,12 @@ export default {
     clearStorage: function() {
       sessionStorage.clear(); //Clear the storage because new data will need to be entered
       console.log("SessionStorage cleared");
+      // this.caseTest(5);
+    },
+    caseTest: function(rowTotal){
+      if(rowTotal > 0 && rowTotal <= 10) { console.log("PLEB1"); } else 
+      if (rowTotal > 11 && rowTotal <= 20) { console.log("PLEB2"); } else
+      { console.log("blah"); }
     }
   },
   mounted(){

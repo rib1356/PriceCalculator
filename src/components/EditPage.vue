@@ -28,7 +28,17 @@ export default {
         }
       ],
       items: [],
-      salesPrices: [],
+      PriceBands: { //These will become changable in the future (hopefully this can be done)
+        priceBandA: 46.55, //These values are coming from the priceCalculator spreadsheet
+        priceBandB: 36,
+        priceBandC: 34,
+        priceBandD: 33,
+        priceBandE: 32,
+        priceBandF: 30,
+        priceBandG: 28,
+        priceBandH: 26,
+        priceBandI: 29,
+      },
       columns: [
         {
           label: 'Id',
@@ -102,19 +112,39 @@ export default {
 
       var itemList = JSON.parse(sessionStorage.getItem('itemInfo'));
       var listOfObjects = [];
+      
 
       for(var i = 0; i < itemList.length; i++) { //Loop through the item list
-        var newItemPrices = new this.saleItemPrices(); //Create a new object to hold each of the different price bands of an item
-        newItemPrices.bandA = (itemList[i].price/((100-50)/100)).toFixed(2);  
-        newItemPrices.bandB = (itemList[i].price/((100-40)/100)).toFixed(2);  
-        newItemPrices.bandC = (itemList[i].price/((100-25)/100)).toFixed(2);  
+        var newItemPrices = new this.saleItemPrices();
+        //Create a new object to hold each of the different price bands of an item
+        //This is going to be some repetitive code? -- Is it possible to loop through the PriceBands?
+        newItemPrices.bandA = (itemList[i].price/((100-this.PriceBands.priceBandA)/100)).toFixed(2);  //Using the array so that they can be edited in
+        newItemPrices.bandB = (itemList[i].price/((100-this.PriceBands.priceBandB)/100)).toFixed(2);  //Admin preferences in later stages of development
+        newItemPrices.bandC = (itemList[i].price/((100-this.PriceBands.priceBandC)/100)).toFixed(2);  
+        newItemPrices.bandD = (itemList[i].price/((100-this.PriceBands.priceBandD)/100)).toFixed(2);  
+        newItemPrices.bandE = (itemList[i].price/((100-this.PriceBands.priceBandE)/100)).toFixed(2);  
+        newItemPrices.bandF = (itemList[i].price/((100-this.PriceBands.priceBandF)/100)).toFixed(2);  
+        newItemPrices.bandG = (itemList[i].price/((100-this.PriceBands.priceBandG)/100)).toFixed(2);  
+        newItemPrices.bandH = (itemList[i].price/((100-this.PriceBands.priceBandH)/100)).toFixed(2);  
+        newItemPrices.bandI = (itemList[i].price/((100-this.PriceBands.priceBandI)/100)).toFixed(2);  
 
-        var length = listOfObjects.push(newItemPrices);
+        var rowTotal = (itemList[i].quantity*itemList[i].price); //Calculate the row total so that the es
+        if (rowTotal > 0 && rowTotal <= 100)   { newItemPrices.estimatedPrice = newItemPrices.bandA } else //If statements are pretty quick in Chrome
+        if (rowTotal > 101 && rowTotal <= 200) { newItemPrices.estimatedPrice = newItemPrices.bandB } else
+        if (rowTotal > 201 && rowTotal <= 300) { newItemPrices.estimatedPrice = newItemPrices.bandC } else
+        if (rowTotal > 301 && rowTotal <= 400) { newItemPrices.estimatedPrice = newItemPrices.bandD } else
+        if (rowTotal > 401 && rowTotal <= 500) { newItemPrices.estimatedPrice = newItemPrices.bandE } else
+        if (rowTotal > 501 && rowTotal <= 600) { newItemPrices.estimatedPrice = newItemPrices.bandF } else
+        if (rowTotal > 601 && rowTotal <= 700) { newItemPrices.estimatedPrice = newItemPrices.bandG } else
+        if (rowTotal > 701 && rowTotal <= 800) { newItemPrices.estimatedPrice = newItemPrices.bandH } else
+        { newItemPrices.estimatedPrice = newItemPrices.bandI }
+        listOfObjects.push(newItemPrices);
       }
+        
         return listOfObjects
     },
-    saleItemPrices: function(bandA, bandB, bandC){
-      var bandA, bandB, bandC; //Defines the set price bands an item can have
+    saleItemPrices: function(bandA, bandB, bandC, bandD, bandE, bandF, bandG, bandH, bandI, estimatedPrice){
+      var bandA, bandB, bandC, bandD, bandE, bandF, bandG, bandH, bandI, estimatedPrice; //Defines the set price bands an item can have
     },
     confirmEntry: function() { //Handle the button press
       var salePricesObject = this.createSalesPrices();

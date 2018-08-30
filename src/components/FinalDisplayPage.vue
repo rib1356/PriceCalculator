@@ -84,6 +84,11 @@ export default {
           field: 'sellPriceC',
           type: 'number',
         },
+        {
+          label: 'Estimated Sell Price (based off rowTotals)',
+          field: 'estimatedPrice',
+          type: 'number',
+        },
       ]   
     }
   },
@@ -104,6 +109,7 @@ export default {
             sellPriceA: itemSalePrices[i].bandA,
             sellPriceB: itemSalePrices[i].bandB,
             sellPriceC: itemSalePrices[i].bandC,
+            estimatedPrice: itemSalePrices[i].estimatedPrice,
       });
     }
     }, //Cant find a way around having these two functions as duplicates as they need to display on seperate columns

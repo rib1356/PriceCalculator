@@ -8,7 +8,14 @@
              @dismissed="showAlert=false">
       Please upload CSV files only!
     </b-alert>
-    <input type="file" @change="handleFileSelect">
+     <b-alert variant="danger"
+             dismissible
+             fade
+             :show="showAlert2"
+             @dismissed="showAlert=false">
+      Quanity/Buy Price may be empty please check the CSV file!
+    </b-alert>
+    <input type="file" @change="handleFileSelect" ref="fileInput">
     <button v-on:click="confirmEntry" :disabled="disabled">Confirm Entry</button> <br>
     <button v-on:click="clearStorage">Clear Storage</button> <br>
     </div>
@@ -20,6 +27,7 @@ export default {
   data() {
       return{
         showAlert: false,
+        showAlert2: false,
         disabled: false,
       }
   },  
@@ -31,6 +39,7 @@ export default {
      
       if(files[0].name.includes(".csv")){ //Check to make sure only csv files are uploaded
         this.showAlert = false;
+        this.showAlert2 = false;
         this.disabled = false;
 		    for (var i = 0, f; f = files[i]; i++) { // Loop through the FileList 
 		      var reader = new FileReader();
@@ -50,20 +59,26 @@ export default {
     },
     parseCSVtoArrayofObjects: function(text, lineTerminator, cellTerminator){
     
-    var vm = this;
+   // var vm = this;
     var listOfObjects = [];
     var lines = text.split(lineTerminator);  //break the lines apart into individual items
-
+    //console.log(lines);
 		for(var line = 0; line<lines.length -1; line++) { //CSV has an EOF with an empty line so this removes last row before saving
         if (lines[line] != "") {
-		      var newItem = new vm.saleItem();
+          console.log(lines[line]);
+		      var newItem = new this.saleItem();
           var information = lines[line].split(cellTerminator);
           newItem.item_id = line;
 		      newItem.name = information[0];
 			    newItem.container = information[1];
 			    newItem.specification = information[2];
 			    newItem.quantity = information[3];
-			    newItem.price = information[4];
+          newItem.price = information[4];
+          if(information[3] === "" || information[4] === ""){
+            this.showAlert2 = true;
+            this.disabled = true;
+            this.reset();
+          }
           newItem.comments = information[5];
 			  }
           var length = listOfObjects.push(newItem);
@@ -83,11 +98,11 @@ export default {
       console.log("SessionStorage cleared");
       // this.caseTest(5);
     },
-    caseTest: function(rowTotal){
-      if(rowTotal > 0 && rowTotal <= 10) { console.log("PLEB1"); } else 
-      if (rowTotal > 11 && rowTotal <= 20) { console.log("PLEB2"); } else
-      { console.log("blah"); }
-    }
+    reset: function() {
+      const input = this.$refs.fileInput
+      input.type = 'text'
+      input.type = 'file'
+  }
   },
   mounted(){
     // Check for the various File API support.

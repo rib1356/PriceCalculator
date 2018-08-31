@@ -70,24 +70,15 @@ export default {
           globalSearchDisabled: true
         },
         {
-          label: 'Sell price A (50%)',
-          field: 'sellPriceA',
-          type: 'number',
-        },
-        {
-          label: 'Sell price B (40%)',
-          field: 'sellPriceB',
-          type: 'number',
-        },
-        {
-          label: 'Sell price C (25%)',
-          field: 'sellPriceC',
+          label: 'Row Total',
+          field: 'rowTotal',
           type: 'number',
         },
         {
           label: 'Estimated Sell Price (based off rowTotals)',
           field: 'estimatedPrice',
           type: 'number',
+          headerField: this.totalSellPrice
         },
       ]   
     }
@@ -106,9 +97,7 @@ export default {
             comments: itemList[i].comments,
             //Index of item Sale Prices will always be the same at the items data therefor you are able,
             //To loop through the different array using the same index to populate the table
-            sellPriceA: itemSalePrices[i].bandA,
-            sellPriceB: itemSalePrices[i].bandB,
-            sellPriceC: itemSalePrices[i].bandC,
+            rowTotal: itemSalePrices[i].rowTotal,
             estimatedPrice: itemSalePrices[i].estimatedPrice,
       });
     }
@@ -126,6 +115,13 @@ export default {
       totalBuyPrice += (rowObj.children[i].quantity * rowObj.children[i].buyPrice);
     }
     return totalBuyPrice;
+    },
+    totalSellPrice: function(rowObj) {
+    let totalBuyPrice = 0;
+    for (let i = 0; i < rowObj.children.length; i++) {
+      totalBuyPrice += (rowObj.children[i].quantity * rowObj.children[i].estimatedPrice);
+    }
+    return totalBuyPrice.toFixed(2);
     },
   },
   mounted(){

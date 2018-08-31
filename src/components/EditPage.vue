@@ -4,6 +4,7 @@
       :columns="columns"
       :rows="rows"
       styleClass="vgt-table bordered condensed"
+      style="border:1px solid grey"
       max-height="500px"
       :fixed-header="true"
       :search-options="{ enabled: true }"
@@ -29,15 +30,15 @@ export default {
       ],
       items: [],
       PriceBands: { //These will become changable in the future (hopefully this can be done)
-        priceBandA: 46.55, //These values are coming from the priceCalculator spreadsheet
-        priceBandB: 36,
-        priceBandC: 34,
-        priceBandD: 33,
-        priceBandE: 32,
-        priceBandF: 30,
-        priceBandG: 28,
-        priceBandH: 26,
-        priceBandI: 29,
+        priceBandA: 46, //These values are coming from the priceCalculator spreadsheet
+        priceBandB: 46,
+        priceBandC: 30,
+        priceBandD: 24,
+        priceBandE: 22,
+        priceBandF: 20.5,
+        priceBandG: 20,
+        priceBandH: 19.5,
+        priceBandI: 19,
       },
       columns: [
         {
@@ -113,7 +114,6 @@ export default {
       var itemList = JSON.parse(sessionStorage.getItem('itemInfo'));
       var listOfObjects = [];
       
-
       for(var i = 0; i < itemList.length; i++) { //Loop through the item list
         var newItemPrices = new this.saleItemPrices();
         //Create a new object to hold each of the different price bands of an item
@@ -128,23 +128,23 @@ export default {
         newItemPrices.bandH = (itemList[i].price/((100-this.PriceBands.priceBandH)/100)).toFixed(2);  
         newItemPrices.bandI = (itemList[i].price/((100-this.PriceBands.priceBandI)/100)).toFixed(2);  
 
-        var rowTotal = (itemList[i].quantity*itemList[i].price); //Calculate the row total so that the es
-        if (rowTotal > 0 && rowTotal <= 100)   { newItemPrices.estimatedPrice = newItemPrices.bandA } else //If statements are pretty quick in Chrome
-        if (rowTotal > 101 && rowTotal <= 200) { newItemPrices.estimatedPrice = newItemPrices.bandB } else
-        if (rowTotal > 201 && rowTotal <= 300) { newItemPrices.estimatedPrice = newItemPrices.bandC } else
-        if (rowTotal > 301 && rowTotal <= 400) { newItemPrices.estimatedPrice = newItemPrices.bandD } else
-        if (rowTotal > 401 && rowTotal <= 500) { newItemPrices.estimatedPrice = newItemPrices.bandE } else
-        if (rowTotal > 501 && rowTotal <= 600) { newItemPrices.estimatedPrice = newItemPrices.bandF } else
-        if (rowTotal > 601 && rowTotal <= 700) { newItemPrices.estimatedPrice = newItemPrices.bandG } else
-        if (rowTotal > 701 && rowTotal <= 800) { newItemPrices.estimatedPrice = newItemPrices.bandH } else
+        var rowTotal = (itemList[i].quantity*itemList[i].price); //Calculate the row total so that the price band cab be chosen
+        newItemPrices.rowTotal = rowTotal.toFixed(2);
+        if (rowTotal > 0 && rowTotal <= 10)   { newItemPrices.estimatedPrice = newItemPrices.bandA } else //If statements are pretty quick in Chrome
+        if (rowTotal > 11 && rowTotal <= 20) { newItemPrices.estimatedPrice = newItemPrices.bandB } else
+        if (rowTotal > 21 && rowTotal <= 35) { newItemPrices.estimatedPrice = newItemPrices.bandC } else
+        if (rowTotal > 36 && rowTotal <= 90) { newItemPrices.estimatedPrice = newItemPrices.bandD } else
+        if (rowTotal > 91 && rowTotal <= 190) { newItemPrices.estimatedPrice = newItemPrices.bandE } else
+        if (rowTotal > 191 && rowTotal <= 300) { newItemPrices.estimatedPrice = newItemPrices.bandF } else
+        if (rowTotal > 301 && rowTotal <= 600) { newItemPrices.estimatedPrice = newItemPrices.bandG } else
+        if (rowTotal > 601 && rowTotal <= 790) { newItemPrices.estimatedPrice = newItemPrices.bandH } else
         { newItemPrices.estimatedPrice = newItemPrices.bandI }
         listOfObjects.push(newItemPrices);
       }
-        
         return listOfObjects
     },
-    saleItemPrices: function(bandA, bandB, bandC, bandD, bandE, bandF, bandG, bandH, bandI, estimatedPrice){
-      var bandA, bandB, bandC, bandD, bandE, bandF, bandG, bandH, bandI, estimatedPrice; //Defines the set price bands an item can have
+    saleItemPrices: function(bandA, bandB, bandC, bandD, bandE, bandF, bandG, bandH, bandI, rowTotal, estimatedPrice){
+      var bandA, bandB, bandC, bandD, bandE, bandF, bandG, bandH, bandI, rowTotal, estimatedPrice; //Defines the set price bands an item can have
     },
     confirmEntry: function() { //Handle the button press
       var salePricesObject = this.createSalesPrices();
@@ -175,4 +175,5 @@ table.vgt-table:not(.vgt-fixed-header) > thead {
     /* Collapse the first row which is the un-fixed table header */
     visibility: collapse !important;
 }
+
 </style>

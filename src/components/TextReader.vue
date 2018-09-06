@@ -17,7 +17,7 @@
     </b-alert>
     <input type="file" @change="handleFileSelect" ref="fileInput">
     <button v-on:click="confirmEntry" :disabled="disabled">Confirm Entry</button> <br>
-    <button v-on:click="clearStorage">Clear Storage</button> <br>
+    <!-- <button v-on:click="clearStorage">Clear Storage</button> <br> -->
     </div>
 </template>
 

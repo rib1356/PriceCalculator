@@ -14,7 +14,6 @@
     "bootstrap-vue": "^2.0.0-rc.11",
     "jshint": "^2.9.6",
     "moment": "^2.22.2",
-    "npm-windows-upgrade": "^5.0.0",
     "vue": "^2.5.2",
     "vue-good-table": "^2.13.0",
     "vue-router": "^3.0.1",

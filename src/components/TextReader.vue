@@ -59,13 +59,12 @@ export default {
     },
     parseCSVtoArrayofObjects: function(text, lineTerminator, cellTerminator){
     
-   // var vm = this;
     var listOfObjects = [];
     var lines = text.split(lineTerminator);  //break the lines apart into individual items
-    //console.log(lines);
+    
 		for(var line = 0; line<lines.length -1; line++) { //CSV has an EOF with an empty line so this removes last row before saving
         if (lines[line] != "") {
-          console.log(lines[line]);
+          //console.log(lines[line]); Could do a check here for any row with a length < 1 and remove that row?
 		      var newItem = new this.saleItem();
           var information = lines[line].split(cellTerminator);
           newItem.item_id = line;
@@ -96,9 +95,8 @@ export default {
     clearStorage: function() {
       sessionStorage.clear(); //Clear the storage because new data will need to be entered
       console.log("SessionStorage cleared");
-      // this.caseTest(5);
     },
-    reset: function() {
+    reset: function() { //Resets the file input when a file cannot be uploaded
       const input = this.$refs.fileInput
       input.type = 'text'
       input.type = 'file'

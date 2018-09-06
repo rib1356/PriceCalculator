@@ -5,7 +5,7 @@
       :rows="rows"
       styleClass="vgt-table bordered condensed"
       style="border:2px solid #dcdfe6"
-      max-height="500px"
+      max-height="700px"
       :fixed-header="true"
       :search-options="{ enabled: true }"
       :group-options="{ enabled: true, headerPosition: 'bottom' }">

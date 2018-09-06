@@ -4,6 +4,7 @@
       :columns="columns"
       :rows="rows"
       styleClass="vgt-table bordered condensed"
+      style="border:1px solid #dcdfe6"
       max-height="500px"
       :fixed-header="true"
       :search-options="{ enabled: true }"
@@ -75,6 +76,11 @@ export default {
           type: 'number',
         },
         {
+          label: 'GPM%',
+          field: 'gpm',
+          type: 'number',
+        },
+        {
           label: 'Estimated Sell Price (based off rowTotals)',
           field: 'estimatedPrice',
           type: 'number',
@@ -98,6 +104,7 @@ export default {
             //Index of item Sale Prices will always be the same at the items data therefor you are able,
             //To loop through the different array using the same index to populate the table
             rowTotal: itemSalePrices[i].rowTotal,
+            gpm: itemSalePrices[i].gpm,
             estimatedPrice: itemSalePrices[i].estimatedPrice,
       });
     }

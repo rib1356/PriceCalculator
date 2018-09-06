@@ -7,8 +7,7 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "build": "node build/build.js",
-    "start": "node server.js",
-    "postinstall": "npm run build"
+    "start": "node server.js"
   },
   "dependencies": {
     "@vue/cli-service": "^3.0.1",

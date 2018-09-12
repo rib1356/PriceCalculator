@@ -31,7 +31,7 @@ export default {
       inner: 'AHills Price Calculator'
     },
     link: [
-      { rel:"icon", type:"image/png", href:"/assets/logo.png" }
+      // { rel:"icon", type:"image/png", href:"/assets/logo.png" }
     ]
   },   
   components: {

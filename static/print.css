@@ -1,6 +1,7 @@
-thead{
-    font-size: 30px;
-  }
+/* thead {
+  display: table-row-group;
+ 
+} */
     /* * {
       display: none;
     }
@@ -21,7 +22,22 @@ thead{
 */
 
 @media print {
-    * {
+  @page { margin: 0; }
+  body { margin: 1.6cm; }
+  #print_frame{
+    display: none;
+  }
+  /* header nav, footer {
+    display: none;
+    } */
+    /* .editPage {
+      display: inline;
+    }
+    .printableTable {
+      font-size: 10pt;
+      visibility: visible;
+  } */
+     /* {
         display: none;
       }
       body {
@@ -31,11 +47,9 @@ thead{
         display: block;
         font-size: 24pt;
       }
-      header nav, footer {
-      display: none;
-      }
+      
       thead {
       display: table-row-group;
       font-size: 30pt;
-      }
+      } */
   }

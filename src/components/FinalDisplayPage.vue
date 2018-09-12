@@ -1,5 +1,5 @@
 <template>
-  <div class="editPage" media="print">
+  <div class="editPage">
     <vue-good-table id="table"
       :columns="columns"
       :rows="rows"
@@ -10,9 +10,11 @@
       :search-options="{ enabled: true }"
       :group-options="{ enabled: true, headerPosition: 'bottom' }">
     </vue-good-table>
-    <br>
-    <button v-on:click="printTable">Print Table</button>
-    <iframe name="print_frame" width="0" height="0" src="finalPage:blank"></iframe>
+    <div style="margin-top:10px">
+      <p><button v-on:click="calcProfit">Calculate Profit</button> Total Profit: {{profit}} </p>
+      <iframe name="print_frame" width="0" height="0" src="finalPage:blank"></iframe>
+      <button v-on:click="printTable">Print Table</button>
+    </div>  
   </div>    
 </template>
 
@@ -82,6 +84,7 @@ export default {
           label: 'GPM%',
           field: 'gpm',
           type: 'number',
+          headerField: this.totalGPM
         },
         {
           label: 'Estimated Sell Price (based off rowTotals)',
@@ -89,7 +92,8 @@ export default {
           type: 'number',
           headerField: this.totalSellPrice
         },
-      ]
+      ],
+      profit: 'Press button',
     }
   },
   head: {
@@ -132,23 +136,45 @@ export default {
     for (let i = 0; i < rowObj.children.length; i++) {
       totalBuyPrice += (rowObj.children[i].quantity * rowObj.children[i].buyPrice);
     }
+    this.totalBuyPrice = totalBuyPrice.toFixed(2);
     return totalBuyPrice;
     },
     totalSellPrice: function(rowObj) {
-    let totalBuyPrice = 0;
+    let totalSellPrice = 0;
     for (let i = 0; i < rowObj.children.length; i++) {
-      totalBuyPrice += (rowObj.children[i].quantity * rowObj.children[i].estimatedPrice);
+      totalSellPrice += (rowObj.children[i].quantity * rowObj.children[i].estimatedPrice);
     }
-    return totalBuyPrice.toFixed(2);
+    this.totalSellPrice = totalSellPrice.toFixed(2);
+    return totalSellPrice.toFixed(2);
+    },
+    totalGPM: function(rowObj) {
+    let totalGPM = 0;
+    for (let i = 0; i < rowObj.children.length; i++) {
+      totalGPM += (rowObj.children[i].gpm / rowObj.children.length) ;
+    }
+    return totalGPM.toFixed(2);
+    },
+    calcProfit: function() {
+      this.profit = (this.totalSellPrice - this.totalBuyPrice).toFixed(2);
     },
     printTable: function(){
+      
+      //document.getElementById("print_frame").contentWindow.print();
+      // var printContents = document.getElementById(divName).innerHTML;
+      // var originalContents = document.body.innerHTML;
+
+      // document.body.innerHTML = printContents;
+
+      // window.print();
+
+      // document.body.innerHTML = originalContents;
       window.frames["print_frame"].document.body.innerHTML = document.getElementById("table").innerHTML;
       window.frames["print_frame"].window.focus();
       window.frames["print_frame"].window.print();
     },
   },
   mounted(){
-    var itemList = JSON.parse(sessionStorage.getItem('itemInfo'));
+    var itemList = JSON.parse(sessionStorage.getItem('itemInfo'));  
     var itemSalePrices = JSON.parse(sessionStorage.getItem('itemSalePrices'));
     this.displayItems(itemList, itemSalePrices);
   }
@@ -156,7 +182,9 @@ export default {
 </script>
 
 <style type="text/css">
-/* Vue Good Table OVERRIDES */
+
+@media screen {
+  /* Vue Good Table OVERRIDES */
 /* PAGE NEEDS TO BE REFRESHED IF CHANGING SCREENS */
 table.vgt-table.vgt-fixed-header {
     position: relative !important;
@@ -171,4 +199,7 @@ table.vgt-table:not(.vgt-fixed-header) > thead {
     /* Collapse the first row which is the un-fixed table header */
     visibility: collapse !important;
 }
+}
 </style>
+
+

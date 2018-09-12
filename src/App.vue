@@ -1,5 +1,6 @@
-<template>
+<template >
 	<div id="app">
+    <link rel="icon" src="./assets/AHillandSonsLogo.png">
     <div>
       <b-nav tabs>  
         <b-nav-item to="/">Home</b-nav-item>
@@ -24,7 +25,15 @@ export default {
     return {
       text: ""
     }
-  }, 
+  },
+  head: {
+    title: {
+      inner: 'AHills Price Calculator'
+    },
+    link: [
+      { rel:"icon", type:"image/png", href:"/assets/logo.png" }
+    ]
+  },   
   components: {
     TextReader,
     EditPage,

@@ -80,6 +80,11 @@ export default {
       ]   
     }
   },
+  head: {
+    title: {
+      inner: 'AHills Price Calculator'
+    },
+  }, 
   methods: {
     displayItems: function(itemList){
       for(var i = 0; i < itemList.length; i++) { //Loop through the item list

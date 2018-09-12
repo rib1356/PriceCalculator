@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+//other
+import VueHead from 'vue-head';
 //Bootstap
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -22,6 +24,7 @@ import 'vue-good-table/dist/vue-good-table.css';
 
 Vue.use(VueGoodTablePlugin);
 Vue.use(Router);
+Vue.use(VueHead);
 Vue.use(BootstrapVue);
 Vue.use(Navbar);
 Vue.use(Nav);

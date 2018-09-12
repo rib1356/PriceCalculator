@@ -30,7 +30,12 @@ export default {
         showAlert2: false,
         disabled: false,
       }
-  },  
+  },
+  head: {
+    title: {
+      inner: 'AHills Price Calculator'
+    },
+  },   
   methods: {
     handleFileSelect: function(evt) {
      
@@ -68,7 +73,10 @@ export default {
 		      var newItem = new this.saleItem();
           var information = lines[line].split(cellTerminator);
           newItem.item_id = line;
-		      newItem.name = information[0];
+          newItem.name = information[0];
+           if(information[0].includes("�")){
+            newItem.name = information[0].replace('�', '');
+          };
 			    newItem.container = information[1];
 			    newItem.specification = information[2];
 			    newItem.quantity = information[3];
@@ -95,12 +103,18 @@ export default {
     clearStorage: function() {
       sessionStorage.clear(); //Clear the storage because new data will need to be entered
       console.log("SessionStorage cleared");
+
+      var str = "PlantName Blah � C2"
+      if(str.includes("�")){
+          console.log("IT INCLUDES THIS");
+      }
+      
     },
     reset: function() { //Resets the file input when a file cannot be uploaded
       const input = this.$refs.fileInput
       input.type = 'text'
       input.type = 'file'
-  }
+  },
   },
   mounted(){
     // Check for the various File API support.

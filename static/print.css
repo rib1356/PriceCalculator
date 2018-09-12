@@ -1,0 +1,41 @@
+thead{
+    font-size: 30px;
+  }
+    /* * {
+      display: none;
+    }
+    body {
+        background-color: lightgreen;
+    }
+    #table {
+      display: block;
+      font-size: 24pt;
+    }
+    header nav, footer {
+    display: none;
+    }
+    thead {
+    display: table-row-group;
+    font-size: 30pt;
+    }
+*/
+
+@media print {
+    * {
+        display: none;
+      }
+      body {
+          background-color: lightgreen;
+      }
+      #table {
+        display: block;
+        font-size: 24pt;
+      }
+      header nav, footer {
+      display: none;
+      }
+      thead {
+      display: table-row-group;
+      font-size: 30pt;
+      }
+  }

@@ -1,6 +1,6 @@
 <template>
-  <div class="editPage">
-    <vue-good-table
+  <div class="editPage" media="print">
+    <vue-good-table id="table"
       :columns="columns"
       :rows="rows"
       styleClass="vgt-table bordered condensed"
@@ -9,13 +9,16 @@
       :fixed-header="true"
       :search-options="{ enabled: true }"
       :group-options="{ enabled: true, headerPosition: 'bottom' }">
-     </vue-good-table>
+    </vue-good-table>
+    <br>
+    <!-- <button v-on:click="printTable">Print Table</button> -->
+    <iframe name="print_frame" width="0" height="0" src="finalPage:blank"></iframe>
   </div>    
 </template>
 
 <script>
 export default {
-  name: 'EditPage',
+  name: 'FinalPage',
   data() {
     return {
       rows: [
@@ -86,9 +89,17 @@ export default {
           type: 'number',
           headerField: this.totalSellPrice
         },
-      ]   
+      ]
     }
   },
+  head: {
+    title: {
+      inner: 'AHills Price Calculator'
+    },
+    link: [
+      { rel:"stylesheet", type:"text/css", href:"/static/print.css", media: "print" },
+    ]
+  },  
   methods: {
     displayItems: function(itemList, itemSalePrices){
       for(var i = 0; i < itemList.length; i++) { //Loop through the item list
@@ -130,6 +141,11 @@ export default {
     }
     return totalBuyPrice.toFixed(2);
     },
+    printTable: function(){
+      window.frames["print_frame"].document.body.innerHTML = document.getElementById("table").innerHTML;
+      window.frames["print_frame"].window.focus();
+      window.frames["print_frame"].window.print();
+    },
   },
   mounted(){
     var itemList = JSON.parse(sessionStorage.getItem('itemInfo'));
@@ -139,7 +155,7 @@ export default {
 }
 </script>
 
-<style>
+<style type="text/css">
 /* Vue Good Table OVERRIDES */
 /* PAGE NEEDS TO BE REFRESHED IF CHANGING SCREENS */
 table.vgt-table.vgt-fixed-header {

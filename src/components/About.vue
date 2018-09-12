@@ -7,7 +7,7 @@
 
 <script>
 export default {
-    //Test
+    //Test2
 }
 </script>
 

@@ -11,7 +11,7 @@
       :group-options="{ enabled: true, headerPosition: 'bottom' }">
     </vue-good-table>
     <br>
-    <!-- <button v-on:click="printTable">Print Table</button> -->
+    <button v-on:click="printTable">Print Table</button>
     <iframe name="print_frame" width="0" height="0" src="finalPage:blank"></iframe>
   </div>    
 </template>

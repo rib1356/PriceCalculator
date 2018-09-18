@@ -86,7 +86,7 @@ export default {
     },
   }, 
   methods: {
-    displayItems: function(itemList){
+    displayItems: function(itemList) {
       for(var i = 0; i < itemList.length; i++) { //Loop through the item list
           //Using "Rows[0]" to first access the parent array so running totals work
           this.rows[0].children.push({ //Push the items into an array and then display them on the table above
@@ -114,7 +114,7 @@ export default {
     }
     return totalBuyPrice;
     },
-    createSalesPrices: function(){
+    createSalesPrices: function() {
 
       var itemList = JSON.parse(sessionStorage.getItem('itemInfo'));
       var listOfObjects = [];
@@ -149,7 +149,7 @@ export default {
       }
         return listOfObjects
     },
-    saleItemPrices: function(bandA, bandB, bandC, bandD, bandE, bandF, bandG, bandH, bandI, rowTotal, estimatedPrice, gpm){
+    saleItemPrices: function(bandA, bandB, bandC, bandD, bandE, bandF, bandG, bandH, bandI, rowTotal, estimatedPrice, gpm) {
       var bandA, bandB, bandC, bandD, bandE, bandF, bandG, bandH, bandI, rowTotal, estimatedPrice, gpm; //Defines the set price bands an item can have
     },
     confirmEntry: function() { //Handle the button press
@@ -158,7 +158,7 @@ export default {
       this.$router.push('finalPage'); //After button press move to next page
     },
   },
-  mounted(){
+  mounted() {
     var itemList = JSON.parse(sessionStorage.getItem('itemInfo'));
     this.displayItems(itemList);
   }

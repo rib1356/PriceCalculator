@@ -13,7 +13,7 @@ import { Nav } from 'bootstrap-vue/es/components';
 //Components
 import TextReader from '@/components/TextReader';
 import EditPage from '@/components/EditPage';
-import About from '@/components/About';
+import Admin from '@/components/Admin';
 import FinalDisplayPage from '@/components/FinalDisplayPage';
 
 //Table
@@ -47,9 +47,9 @@ export default new Router({
       component: FinalDisplayPage
     },
     {
-      path: '/about',
-      name: 'About',
-      component: About
+      path: '/Admin',
+      name: 'Admin',
+      component: Admin
     },
   ]
 });

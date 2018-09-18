@@ -105,7 +105,7 @@ export default {
     ]
   },  
   methods: {
-    displayItems: function(itemList, itemSalePrices){
+    displayItems: function(itemList, itemSalePrices) {
       for(var i = 0; i < itemList.length; i++) { //Loop through the item list
           //Using "Rows[0]" to first access the parent array so running totals work
           this.rows[0].children.push({ //Push the items into an array and then display them on the table above
@@ -157,12 +157,11 @@ export default {
     calcProfit: function() {
       this.profit = (this.totalSellPrice - this.totalBuyPrice).toFixed(2);
     },
-    printTable: function(){
+    printTable: function() {
       
       //document.getElementById("print_frame").contentWindow.print();
       // var printContents = document.getElementById(divName).innerHTML;
       // var originalContents = document.body.innerHTML;
-
       // document.body.innerHTML = printContents;
 
       // window.print();
@@ -173,7 +172,7 @@ export default {
       window.frames["print_frame"].window.print();
     },
   },
-  mounted(){
+  mounted() {
     var itemList = JSON.parse(sessionStorage.getItem('itemInfo'));  
     var itemSalePrices = JSON.parse(sessionStorage.getItem('itemSalePrices'));
     this.displayItems(itemList, itemSalePrices);

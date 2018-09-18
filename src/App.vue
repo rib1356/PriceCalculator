@@ -6,7 +6,7 @@
         <b-nav-item to="/">Home</b-nav-item>
         <b-nav-item to="/editPage">Edit Page</b-nav-item>
         <b-nav-item to="/finalPage">Final Page</b-nav-item>
-        <b-nav-item to="/about">About</b-nav-item>
+        <b-nav-item to="/Admin">Admin</b-nav-item>
       </b-nav>
     </div>
   <router-view/>
@@ -16,7 +16,7 @@
 <script>
 import TextReader from "@/components/TextReader";
 import EditPage from "@/components/EditPage";       //Does this need to be added here?
-import About from "@/components/About";
+import Admin from "@/components/Admin";
 import FinalDisplayPage from '@/components/FinalDisplayPage'
 
 export default {
@@ -37,7 +37,7 @@ export default {
   components: {
     TextReader,
     EditPage,
-    About,
+    Admin,
     FinalDisplayPage
   }
 };

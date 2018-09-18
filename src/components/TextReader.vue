@@ -16,8 +16,11 @@
       Quanity/Buy Price may be empty please check the CSV file!
     </b-alert>
     <input type="file" @change="handleFileSelect" ref="fileInput">
-    <button v-on:click="confirmEntry" :disabled="disabled">Confirm Entry</button> <br>
-    <button v-on:click="clearStorage">Clear Storage</button> <br>
+    <button v-on:click="confirmEntry" :disabled="disabled">Confirm Entry</button> <br> <br>
+    <p>
+    <button v-on:click="clearStorage">Clear Storage</button>
+    <button v-on:click="adminPage">Admin Page</button>
+    </p>
     </div>
 </template>
 
@@ -62,7 +65,7 @@ export default {
         this.disabled = true;
       }
     },
-    parseCSVtoArrayofObjects: function(text, lineTerminator, cellTerminator){
+    parseCSVtoArrayofObjects: function(text, lineTerminator, cellTerminator) {
     
     var listOfObjects = [];
     var lines = text.split(lineTerminator);  //break the lines apart into individual items
@@ -103,12 +106,9 @@ export default {
     clearStorage: function() {
       sessionStorage.clear(); //Clear the storage because new data will need to be entered
       console.log("SessionStorage cleared");
-
-      var str = "PlantName Blah � C2"
-      if(str.includes("�")){
-          console.log("IT INCLUDES THIS");
-      }
-      
+    },
+    adminPage: function() {
+      this.$router.push('Admin');
     },
     reset: function() { //Resets the file input when a file cannot be uploaded
       const input = this.$refs.fileInput
@@ -116,7 +116,7 @@ export default {
       input.type = 'file'
   },
   },
-  mounted(){
+  mounted() {
     // Check for the various File API support.
     if (window.File && window.FileReader && window.FileList && window.Blob) {
       // Great success! All the File APIs are supported.

@@ -15,9 +15,24 @@
 
 <script>
 import TextReader from "@/components/TextReader";
-import EditPage from "@/components/EditPage";       //Does this need to be added here?
+import EditPage from "@/components/EditPage";
 import Admin from "@/components/Admin";
-import FinalDisplayPage from '@/components/FinalDisplayPage'
+import FinalDisplayPage from '@/components/FinalDisplayPage';
+// import Firebase from 'firebase/app';
+// import 'firebase/database';
+
+// //Firebase Config
+// let config = {
+//     apiKey: "AIzaSyD84mR8U4ovC_raqYd6o_b9KDy3E8zQMks",
+//     authDomain: "ahills-price-calculator.firebaseapp.com",
+//     databaseURL: "https://ahills-price-calculator.firebaseio.com",
+//     projectId: "ahills-price-calculator",
+//     storageBucket: "ahills-price-calculator.appspot.com",
+//     messagingSenderId: "607541047201"
+//   }; 
+// Firebase.initializeApp(config)
+// export const db = Firebase.database()
+// export const gpmRef = db.ref('GPM')
 
 export default {
   name: "app",
@@ -41,8 +56,8 @@ export default {
     FinalDisplayPage
   }
 };
-</script>
 
+</script>
 
 <style>
 #app {

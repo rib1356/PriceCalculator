@@ -2,11 +2,9 @@
     <div>
         <p>This page will be used for the admin preferences!</p>
         <p>Currently just populating the page navigation</p>
-        <!-- <li v-bind:key="gpm" v-for="gpm in gpms">
-            {{gpm}}
-        </li> -->
         <label>GPM:</label>
-        <input type="text" v-model="gpm">
+        <input type="text" v-model="gpm" v-validate="'numeric|max:3'" name="Test">
+        <p v-if="errors.has('Test')">{{ errors.first('Test') }}</p>
         <button v-on:click="submitGpm">add</button>
         <table class="minimalistBlack">
             <thead>
@@ -29,7 +27,9 @@
                     </template>
                     <template v-else> 
                         <td>{{gpm.name}}</td>
-                        <td><input type="text" v-model="gpm.gpm"></td>
+                        <td><input type="text" v-model="gpm.gpm" name="GPM" v-validate="'numeric'"></td>
+                        <span v-if="errors.has('GPMs')">{{ errors.first('GPM') }}</span>
+                        <!-- <p v-if="errors.has('GPM')" class="alert-danger">{{ errors.first('gpm') }}</p> -->
                         <td><input type="text" v-model="gpm.rowMin"></td>
                         <td><input type="text" v-model="gpm.rowMax"></td>
                         <td><button v-on:click="saveEdit(gpm)">Save</button>
@@ -38,27 +38,10 @@
                 </tr>      
             </tbody>
         </table>
-        <!-- <div>
-            <ul>
-            <li v-for="gpm of gpms" v-bind:key="gpm['.key']">
-                <div v-if="!gpm.edit">
-                {{gpm.name}} - {{gpm.gpm}}%
-                <button v-on:click="setEdit(gpm['.key'])">Edit GPM</button>
-                </div>
-                <div v-else>
-                    <input type="text" v-model="gpm.gpm">
-                    <button v-on:click="saveEdit(gpm)">Save</button>
-                    <button v-on:click="cancelEdit(gpm['.key'])">Cancel</button>
-                </div>
-            </li>
-            </ul>
-        </div> -->
     </div>
-     
 </template>
 
 <script>
-
 import { gpmRef } from '../main'
 
 export default {
@@ -74,7 +57,7 @@ export default {
         }
     },
     methods: {
-        submitGpm(){
+        submitGpm(){//:class="{'has-error': errors.has('GPM')}"
             gpmRef.push({name: this.gpm, edit: false, rowMin: 0, rowMax: 0});
         },
         setEdit(key){
@@ -86,7 +69,7 @@ export default {
         },
         saveEdit(gpmValue){
             const key = gpmValue['.key'];
-            gpmRef.child(key).update({gpm: gpmValue.gpm, edit: false, rowMin: gpmValue.rowMin, rowMax: gpmValue.rowMax});
+            gpmRef.child(key).update({gpm: parseInt(gpmValue.gpm), edit: false, rowMin: parseFloat(gpmValue.rowMin), rowMax: parseFloat(gpmValue.rowMax)});
         }
     }
 }
@@ -94,9 +77,9 @@ export default {
 
 <style>
 table.minimalistBlack {
-  border: 2px solid #000000;
+  border: 1px solid #000000;
   width: 80%;
-  text-align: center;
+  text-align: left;
   border-collapse: collapse;
 }
 table.minimalistBlack td, table.minimalistBlack th {
@@ -111,7 +94,7 @@ table.minimalistBlack thead {
   background: -moz-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
   background: -webkit-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
   background: linear-gradient(to bottom, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
-  border-bottom: 2px solid #000000;
+  border-bottom: 1px solid #000000;
 }
 table.minimalistBlack thead th {
   font-size: 15px;
@@ -122,5 +105,13 @@ table.minimalistBlack thead th {
 table.minimalistBlack tfoot td {
   font-size: 14px;
 }
+
+.alert-danger {
+  color: red;
+}
+.has-error {
+  border-color: red;
+}
+
 </style>
 

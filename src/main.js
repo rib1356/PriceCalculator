@@ -7,6 +7,9 @@ import router from './router';
 import VueFire from 'vuefire';
 import Firebase from 'firebase/app';
 import 'firebase/database';
+import 'firebase/auth';
+
+import VeeValidate from 'vee-validate';
 
 let config = {
   apiKey: "AIzaSyD84mR8U4ovC_raqYd6o_b9KDy3E8zQMks",
@@ -19,9 +22,9 @@ let config = {
 let app = Firebase.initializeApp(config);
 export const db = app.database();
 export const gpmRef = db.ref('GPM');
-export const rowBoundariesRef = db.ref('RowBoundaries');
 
 Vue.use(VueFire);
+Vue.use(VeeValidate);
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */

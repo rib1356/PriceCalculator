@@ -20,18 +20,27 @@
     <p>
     <button v-on:click="clearStorage">Clear Storage</button>
     <button v-on:click="adminPage">Admin Page</button>
+    <br>
+    <button v-on:click="showModal">Test</button>
+    <modal v-show="isModalVisible" @close="closeModal"/>
     </p>
     </div>
 </template>
 
 <script>
+import Modal from './modal.vue';
+
 export default {
   name: 'TextReader',
+  components: {
+    modal: Modal,
+  },
   data() {
       return{
         showAlert: false,
         showAlert2: false,
         disabled: false,
+        isModalVisible: false,
       }
   },
   head: {
@@ -114,7 +123,13 @@ export default {
       const input = this.$refs.fileInput
       input.type = 'text'
       input.type = 'file'
-  },
+    },
+    showModal: function() {
+      this.isModalVisible = true;
+    },
+    closeModal: function() {
+      this.isModalVisible = false;
+    }
   },
   mounted() {
     // Check for the various File API support.

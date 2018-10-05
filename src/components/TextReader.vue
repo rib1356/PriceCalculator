@@ -20,8 +20,7 @@
     <p>
     <button v-on:click="clearStorage">Clear Storage</button>
     <button v-on:click="adminPage">Admin Page</button>
-    <br>
-    <button v-on:click="showModal">Test</button>
+    <button v-on:click="showModal">Sign In</button>
     <modal v-show="isModalVisible" @close="closeModal"/>
     </p>
     </div>
@@ -141,4 +140,6 @@ export default {
   }
 };
 </script>
+
+
 

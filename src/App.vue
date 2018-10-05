@@ -18,6 +18,7 @@ import TextReader from "@/components/TextReader";
 import EditPage from "@/components/EditPage";
 import Admin from "@/components/Admin";
 import FinalDisplayPage from '@/components/FinalDisplayPage';
+import modal from '@/components/modal';
 
 export default {
   name: "app",
@@ -38,19 +39,24 @@ export default {
     TextReader,
     EditPage,
     Admin,
-    FinalDisplayPage
+    FinalDisplayPage,
+    modal
   }
 };
 
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 10px;
-}
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 10px;
+  }
+  a.nav-link {
+    color: #4AAE9B;
+  }
+
 </style>

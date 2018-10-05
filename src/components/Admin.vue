@@ -1,8 +1,6 @@
 <template>
     <div>
-        <p>This page will be used for the admin preferences!</p>
-        <p>Currently just populating the page navigation</p>
-        <label>GPM:</label>
+        <label>(Testing Purposes) GPM:</label>
         <input type="text" v-model="gpm" v-validate="'numeric|max:3'" name="Test">
         <p v-if="errors.has('Test')">{{ errors.first('Test') }}</p>
         <button v-on:click="submitGpm">add</button>
@@ -38,11 +36,14 @@
                 </tr>      
             </tbody>
         </table>
+    <button v-on:click="logout">Logout</button>
     </div>
 </template>
 
 <script>
 import { gpmRef } from '../main'
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 export default {
     name: 'Admin',
@@ -70,6 +71,12 @@ export default {
         saveEdit(gpmValue){
             const key = gpmValue['.key'];
             gpmRef.child(key).update({gpm: parseInt(gpmValue.gpm), edit: false, rowMin: parseFloat(gpmValue.rowMin), rowMax: parseFloat(gpmValue.rowMax)});
+        },
+        logout: function() { 
+            firebase.auth().signOut().then(() => {
+                console.log("Signed out");
+                this.$router.replace('/');
+            });
         }
     }
 }
@@ -81,6 +88,11 @@ table.minimalistBlack {
   width: 80%;
   text-align: left;
   border-collapse: collapse;
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin: auto;
+  margin-top: 5px;
 }
 table.minimalistBlack td, table.minimalistBlack th {
   border: 1px solid #000000;

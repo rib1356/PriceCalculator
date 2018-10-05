@@ -125,6 +125,7 @@ export default {
     },
     showModal: function() {
       this.isModalVisible = true;
+      console.log("Show modal true");
     },
     closeModal: function() {
       this.isModalVisible = false;

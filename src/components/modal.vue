@@ -1,5 +1,6 @@
 <template>
   <transition name="modal-fade">
+    <div class="modal-backdrop">
       <div class="modal" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
         <header class="modal-header" id="modalTitle">
           <slot name="header">
@@ -38,8 +39,7 @@
           </slot>
         </footer>
       </div>
-      <!-- <div class="modal-backdrop">
-      </div> -->
+    </div>
   </transition>
 </template>
 
@@ -68,7 +68,6 @@
               //alert("connection sucessful");
               console.log("Login Sucessful")
               this.$router.replace('admin');
-              
             },
             (err) => {
               alert("There was an error" + err) //Do more stuff with error handling
@@ -98,10 +97,10 @@
 
   .modal-backdrop {
     position: fixed;
-    top: 5;
-    bottom: 5;
-    left: 5;
-    right: 5;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     background-color: rgba(0, 0, 0, 0.3);
     display: flex;
     justify-content: center;
@@ -174,6 +173,5 @@
     border: 1px solid #4AAE9B;
     margin-bottom: 2px;
   }
-
 
 </style>

@@ -1,6 +1,5 @@
 <template>
   <transition name="modal-fade">
-    <div class="modal-backdrop">
       <div class="modal" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
         <header class="modal-header" id="modalTitle">
           <slot name="header">
@@ -39,7 +38,8 @@
           </slot>
         </footer>
       </div>
-    </div>
+      <!-- <div class="modal-backdrop">
+      </div> -->
   </transition>
 </template>
 
@@ -98,10 +98,10 @@
 
   .modal-backdrop {
     position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    top: 5;
+    bottom: 5;
+    left: 5;
+    right: 5;
     background-color: rgba(0, 0, 0, 0.3);
     display: flex;
     justify-content: center;

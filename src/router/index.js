@@ -62,10 +62,10 @@ let router =  new Router({
   ]
 });
 
-//This is only allowing people to move to admin because authenticated
+//This method is checked before each route is made
 router.beforeEach((to, from, next) => {
 
-    let currentUser = firebase.auth().currentUser; //Get the current user from firebase if auth
+    let currentUser = firebase.auth().currentUser; //Get the current user from firebase if auth (null if not logged in)
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth); //To check if the route we need to go to requires "requiresAuth"
 
     if(requiresAuth && !currentUser) { //If the page requires authentication and user isnt logged in redirect

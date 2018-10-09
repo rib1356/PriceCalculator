@@ -20,14 +20,15 @@
     <p>
     <button v-on:click="clearStorage">Clear Storage</button>
     <button v-on:click="adminPage">Admin Page</button>
-    <button v-on:click="showModal">Sign In</button>
-    <modal v-show="isModalVisible" @close="closeModal"/>
+    <modal v-if="isModalVisible" @close="closeModal"/>
     </p>
     </div>
 </template>
 
 <script>
 import Modal from './modal.vue';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 export default {
   name: 'TextReader',
@@ -80,19 +81,18 @@ export default {
     
 		for(var line = 0; line<lines.length -1; line++) { //CSV has an EOF with an empty line so this removes last row before saving
         if (lines[line] != "") {
-          //console.log(lines[line]); Could do a check here for any row with a length < 1 and remove that row?
 		      var newItem = new this.saleItem();
           var information = lines[line].split(cellTerminator);
           newItem.item_id = line;
           newItem.name = information[0];
-           if(information[0].includes("�")){
+          if(information[0].includes("�")){ //Used to catch unknown character
             newItem.name = information[0].replace('�', '');
           };
 			    newItem.container = information[1];
 			    newItem.specification = information[2];
 			    newItem.quantity = information[3];
           newItem.price = information[4];
-          if(information[3] === "" || information[4] === ""){
+          if(information[3] === "" || information[4] === ""){ //Checks to see if the quantity or prices are empty
             this.showAlert2 = true;
             this.disabled = true;
             this.reset();
@@ -116,7 +116,12 @@ export default {
       console.log("SessionStorage cleared");
     },
     adminPage: function() {
-      this.$router.push('Admin');
+      var user = firebase.auth().currentUser; //Get current user
+      if (user) { //If user is logged in continue to the admin page
+          this.$router.push('Admin');
+        } else {
+          this.showModal();
+        }
     },
     reset: function() { //Resets the file input when a file cannot be uploaded
       const input = this.$refs.fileInput
@@ -125,11 +130,10 @@ export default {
     },
     showModal: function() {
       this.isModalVisible = true;
-      console.log("Show modal true");
     },
     closeModal: function() {
       this.isModalVisible = false;
-    }
+    },
   },
   mounted() {
     // Check for the various File API support.

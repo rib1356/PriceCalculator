@@ -6,7 +6,7 @@
         <b-nav-item to="/">Home</b-nav-item>
         <b-nav-item to="/editPage">Edit Page</b-nav-item>
         <b-nav-item to="/finalPage">Final Page</b-nav-item>
-        <b-nav-item to="/Admin">Admin</b-nav-item>
+        <b-nav-item disabled:true to="/Admin">Admin</b-nav-item>
       </b-nav>
     </div>
   <router-view/>

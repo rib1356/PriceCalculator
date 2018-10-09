@@ -1,6 +1,6 @@
 <template>
   <transition name="modal-fade">
-    <!-- <div class="modal-backdrop"> -->
+    <div class="modal-backdrop">
       <div class="modal" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
         <header class="modal-header" id="modalTitle">
           <slot name="header">
@@ -30,16 +30,17 @@
         </section>
         <footer class="modal-footer">
           <slot name="footer">
-            <button type="button" class="btn-green" @click="close" aria-label="Close modal">
+            <button type ="button" class="btn-green" @click="resetPass">Reset Password </button>
+            <button type="button" class="btn-green" @click="close">
               Cancel
             </button>
-            <button type="button" class="btn-green" @click="signIn" aria-label="Close modal">
+            <button type="button" class="btn-green" @keyup.enter="signIn" @click="signIn">
               Sign In
             </button>
           </slot>
         </footer>
       </div>
-    <!-- </div> -->
+    </div>
   </transition>
 </template>
 
@@ -47,52 +48,79 @@
   import firebase from 'firebase/app';
   import 'firebase/auth';
  
-
   export default {
     name: 'modal',
     data() {
       return {
         email: '',   
         password: '', 
+        modalOpen: false,
       }
     },
     methods: {
-      close() {
+      close: function() {
         this.$emit('close');
         this.email = '';
         this.password = '';
+        this.modalOpen = false;
+        console.log("Modal closing:" + this.modalOpen);
       },
-      signIn() {
+      signIn: function() {
         firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
             (user) => {
-              //alert("connection sucessful");
               console.log("Login Sucessful")
               this.$router.replace('admin');
             },
             (err) => {
-              alert("There was an error" + err) //Do more stuff with error handling
+              alert("There was an " + err) //Do more stuff with error handling
             }
           ); 
+      },
+      enterKeyListener: function(evt) { //Function to allow for the enter key to be pressed to sign in
+        if(this.modalOpen && evt.keyCode === 13) {
+          this.signIn();
+        }
+      },
+      resetPass: function() {
+        if(this.email === ''){
+          alert("There was an Error: Email field empty, please enter email and then press reset password");
+        } else {
+        firebase.auth().sendPasswordResetEmail(this.email).then(function() {
+          alert("A reset password email has been sent")
+        }).catch(function(error) {
+          alert("There was an " + error);
+        });
       }
-    }
+      }
+    },
+    mounted() {
+    this.modalOpen = true;
+    console.log("Modal loaded on click:" + this.modalOpen)
+    },
+    created: function() {
+        document.addEventListener('keyup', this.enterKeyListener);
+    },
+    destroyed: function() {
+        document.removeEventListener('keyup', this.enterKeyListener);
+    },
   }  
 </script>
 
 <style>
 
    .modal {
-    background: #FFFFFF;
-    box-shadow: 2px 2px 20px 1px;
-    overflow-x: auto;
-    display: flex;
-    height: 50%;
-    width: 25%;
-    flex-direction: column;
+    background: #FFFFFF !important;
+    box-shadow: 2px 2px 20px 1px !important;
+    overflow-x: auto !important;
+    display: flex !important;
+    height: 50% !important;
+    width: 25% !important;
+    flex-direction: column ;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    margin: auto;
+    margin: auto ;
   }
 
   .modal-backdrop {
@@ -101,17 +129,17 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.3);
-    display: flex;
+    background-color: rgba(0, 0, 0, 0.3) !important; 
+    display: flex ;
     justify-content: center;
     align-items: center;
   }
 
   .modal-header {
-    padding: 1%;
+    padding: 1% !important;
     display: flex;
-    border-bottom: 1px solid #eeeeee;
-    color: #4AAE9B;
+    border-bottom: 1px solid #eeeeee !important;
+    color: #4AAE9B !important;
     justify-content: space-between;
   }
 
@@ -122,15 +150,15 @@
   }
 
   .modal-footer {
-    padding: 3%;
-    display: flex;
+    padding: 3%  !important;
+    display: flex ;
     border-top: 1px solid #eeeeee;
     justify-content: flex-end;
   }
 
   .modal-body {
     position: relative;
-    padding: 15% 10px;
+    padding: 15% 10px !important;
   }
 
   .btn-close {

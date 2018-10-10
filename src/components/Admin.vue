@@ -9,6 +9,7 @@
                 <tr>
                     <th>Band</th>
                     <th>GPM Percent</th>
+                    <th>Markup Percent</th>
                     <th>Row Minimum</th>
                     <th>Row Maximum</th>
                     <th>Edit</th>
@@ -19,6 +20,7 @@
                     <template v-if="!gpm.edit">
                         <td>{{gpm.name}}</td>
                         <td>{{gpm.gpm}}%</td>
+                        <td>{{(gpm.gpm/(100-gpm.gpm)*100).toFixed(2)}}%</td>
                         <td>{{gpm.rowMin}}</td>
                         <td>{{gpm.rowMax}}</td>
                         <td><button v-on:click="setEdit(gpm['.key'])">Edit GPM</button></td>
@@ -28,6 +30,7 @@
                         <td><input type="text" v-model="gpm.gpm" name="GPM" v-validate="'numeric'"></td>
                         <span v-if="errors.has('GPMs')">{{ errors.first('GPM') }}</span>
                         <!-- <p v-if="errors.has('GPM')" class="alert-danger">{{ errors.first('gpm') }}</p> -->
+                        <td><input type="text" v-model="gpm.gpm"></td>
                         <td><input type="text" v-model="gpm.rowMin"></td>
                         <td><input type="text" v-model="gpm.rowMax"></td>
                         <td><button v-on:click="saveEdit(gpm)">Save</button>

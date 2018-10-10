@@ -94,8 +94,8 @@
       }
     },
     mounted() {
-    this.modalOpen = true;
-    console.log("Modal loaded on click:" + this.modalOpen)
+        this.modalOpen = true;
+        console.log("Modal loaded on click:" + this.modalOpen)
     },
     created: function() {
         document.addEventListener('keyup', this.enterKeyListener);

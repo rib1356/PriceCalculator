@@ -126,7 +126,7 @@ export default {
     }, //Cant find a way around having these two functions as duplicates as they need to display on seperate columns
     totalQuantity: function(rowObj) {
     let totalQuantity = 0;
-    for (let i = 0; i < rowObj.children.length; i++) {
+    for (let i = 0; i < rowObj.children.length; i++) { //Loops through the quantity column and displays on the footer
       totalQuantity += rowObj.children[i].quantity;
     }
     return totalQuantity;

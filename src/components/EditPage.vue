@@ -124,8 +124,8 @@ export default {
         //Create a new object to hold each of the different price bands of an item
         //This is going to be some repetitive code -- Is it possible to loop through the PriceBands?
         //But how to loop through and add to different items in the object?
-        newItemPrices.bandA = (itemList[i].price/((100-this.PriceBands.priceBandA)/100)).toFixed(2);  //Using the array so that they can be edited in
-        newItemPrices.bandB = (itemList[i].price/((100-this.PriceBands.priceBandB)/100)).toFixed(2);  //Admin preferences in later stages of development
+        newItemPrices.bandA = (itemList[i].price/((100-this.PriceBands.priceBandA)/100)).toFixed(2);
+        newItemPrices.bandB = (itemList[i].price/((100-this.PriceBands.priceBandB)/100)).toFixed(2);
         newItemPrices.bandC = (itemList[i].price/((100-this.PriceBands.priceBandC)/100)).toFixed(2);  
         newItemPrices.bandD = (itemList[i].price/((100-this.PriceBands.priceBandD)/100)).toFixed(2);  
         newItemPrices.bandE = (itemList[i].price/((100-this.PriceBands.priceBandE)/100)).toFixed(2);  

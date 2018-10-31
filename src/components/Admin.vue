@@ -1,9 +1,5 @@
 <template>
     <div>
-        <label>(Testing Purposes) GPM:</label>
-        <input type="text" v-model="gpm" v-validate="'numeric|max:3'" name="Test">
-        <p v-if="errors.has('Test')">{{ errors.first('Test') }}</p>
-        <button v-on:click="submitGpm">add</button>
         <table class="minimalistBlack">
             <thead>
                 <tr>
@@ -27,8 +23,8 @@
                     </template>
                     <template v-else> 
                         <td>{{gpm.name}}</td>
-                        <td><input type="text" v-model="gpm.gpm" name="GPM" v-validate="'numeric'"></td>
-                        <span v-if="errors.has('GPMs')">{{ errors.first('GPM') }}</span>
+                        <td><input type="text" v-model="gpm.gpm" ></td>
+                        <!-- <span v-if="errors.has('GPMs')">{{ errors.first('GPM') }}</span> name="GPM" v-validate="'numeric'" -->
                         <!-- <p v-if="errors.has('GPM')" class="alert-danger">{{ errors.first('gpm') }}</p> -->
                         <td><input type="text" v-model="gpm.gpm"></td>
                         <td><input type="text" v-model="gpm.rowMin"></td>
@@ -38,8 +34,20 @@
                     </template>
                 </tr>      
             </tbody>
-        </table>
+        </table>  
+    <label>(Testing Purposes) GPM:</label>
+        <input type="text" v-model="gpm2" v-validate="'numeric|max:3'" name="Test">
+        <p v-if="errors.has('Test')">{{ errors.first('Test') }}</p>
+        <button v-on:click="submitGpm">add</button>    
     <button v-on:click="logout">Logout</button>
+    <button v-on:click="retrieveData">Test</button>
+    <h4>Admin Page - Things to know</h4>
+    <ul>
+        <li>This page will still be accessable until you have logged out</li>
+        <li>To see a change in markup value the GPM value needs to be changed </li>
+        <li>When setting row values the Minimum value needs to be +1p on the previous row maximum</li>
+        <li>BandI row total will fall after BandH maximum value</li>
+    </ul>
     </div>
 </template>
 
@@ -52,7 +60,7 @@ export default {
     name: 'Admin',
     data() {
         return{
-            gpm: '',
+            gpm2: '',
         }
     },
     firebase() {
@@ -72,13 +80,32 @@ export default {
             gpmRef.child(key).update({edit: false});
         },
         saveEdit(gpmValue){
-            const key = gpmValue['.key'];
+            const key = gpmValue['.key']; //Get the unique id of the row thats been saved
+            //Update the row 
             gpmRef.child(key).update({gpm: parseInt(gpmValue.gpm), edit: false, rowMin: parseFloat(gpmValue.rowMin), rowMax: parseFloat(gpmValue.rowMax)});
         },
         logout: function() { 
             firebase.auth().signOut().then(() => {
                 console.log("Signed out");
                 this.$router.replace('/');
+            });
+        },
+        retrieveData: function() {
+            var ref = firebase.database().ref("GPM/");
+
+            var that = this;
+
+             console.log(this.gpm2);
+            ref.on("value", function(snapshot) {
+                snapshot.forEach(function(child){
+                var num = 1;    
+                    if(that.gpm2 >= child.val().rowMin && that.gpm2 <= child.val().rowMax)
+                        {
+                            console.log(child.val().name);
+                        }
+            }); 
+            }, function (error) {
+                console.log("Error: " + error.code);
             });
         }
     }
@@ -91,11 +118,11 @@ table.minimalistBlack {
   width: 80%;
   text-align: left;
   border-collapse: collapse;
-  position: fixed;
   left: 0;
   right: 0;
   margin: auto;
   margin-top: 5px;
+  margin-bottom: 5px;
 }
 table.minimalistBlack td, table.minimalistBlack th {
   border: 1px solid #000000;
@@ -126,6 +153,10 @@ table.minimalistBlack tfoot td {
 }
 .has-error {
   border-color: red;
+}
+ul {
+    text-align: center;
+    list-style-position: inside;
 }
 
 </style>

@@ -34,19 +34,15 @@
                     </template>
                 </tr>      
             </tbody>
-        </table>  
-    <label>(Testing Purposes) GPM:</label>
-        <input type="text" v-model="gpm2" v-validate="'numeric|max:3'" name="Test">
-        <p v-if="errors.has('Test')">{{ errors.first('Test') }}</p>
-        <button v-on:click="submitGpm">add</button>    
+        </table>   
     <button v-on:click="logout">Logout</button>
-    <button v-on:click="retrieveData">Test</button>
     <h4>Admin Page - Things to know</h4>
     <ul>
         <li>This page will still be accessable until you have logged out</li>
         <li>To see a change in markup value the GPM value needs to be changed </li>
         <li>When setting row values the Minimum value needs to be +1p on the previous row maximum</li>
-        <li>BandI row total will fall after BandH maximum value</li>
+        <li>BandI - When checking which gpm it will look between the min and max rowTotal values, 
+            meaning the maximum it needs to be a high value</li>
     </ul>
     </div>
 </template>
@@ -90,24 +86,6 @@ export default {
                 this.$router.replace('/');
             });
         },
-        retrieveData: function() {
-            var ref = firebase.database().ref("GPM/");
-
-            var that = this;
-
-             console.log(this.gpm2);
-            ref.on("value", function(snapshot) {
-                snapshot.forEach(function(child){
-                var num = 1;    
-                    if(that.gpm2 >= child.val().rowMin && that.gpm2 <= child.val().rowMax)
-                        {
-                            console.log(child.val().name);
-                        }
-            }); 
-            }, function (error) {
-                console.log("Error: " + error.code);
-            });
-        }
     }
 }
 </script>

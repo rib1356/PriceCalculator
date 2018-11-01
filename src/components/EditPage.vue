@@ -109,23 +109,25 @@ export default {
     return totalBuyPrice;
     },
     createSalesPrices: function() {
-        var ref = firebase.database().ref("GPM/");
+        var ref = firebase.database().ref("GPM/").orderByKey();
         var itemList = JSON.parse(sessionStorage.getItem('itemInfo'));
         var listOfObjects = [];
       
       for(var i = 0; i < itemList.length; i++) { //Loop through the item list
         var newItemPrices = new this.saleItemPrices();
-        var rowTotal = (itemList[i].quantity*itemList[i].price).toFixed(2); //Calculate the row total so that the price band can be chosen
+        var rowTotal = (itemList[i].quantity*itemList[i].price).toFixed(2); //Calculate the row total so that the price band can be chosen 
         newItemPrices.rowTotal = rowTotal; //Add the RowTotal to the object to be saved in sessionStorage
+
         //Firebase function to loop through each of the possible price bands
         ref.on("value", function(snapshot) {
-              snapshot.forEach(function(child){   
-                    if(rowTotal >= child.val().rowMin && rowTotal <= child.val().rowMax) //Check where RowTotal falls to decide what GPM to apply to the price
-                        {
-                            newItemPrices.estimatedPrice = (itemList[i].price/((100-child.val().gpm)/100)).toFixed(2); //Calculate the estimated price by finding which GPM band it should be using then applying the formula
-                            newItemPrices.gpm = child.val().gpm; //Set the GPM to be = to whichever band it falls into    
-                        }
-            }); 
+              snapshot.forEach(function(child){ 
+                var obj = child.val();
+                if(rowTotal >= obj.rowMin && rowTotal <= obj.rowMax) //Check where RowTotal falls to decide what GPM to apply to the price
+                  {
+                    newItemPrices.gpm = obj.gpm;  //Set the GPM to be = to whichever band it falls into
+                    newItemPrices.estimatedPrice = (itemList[i].price/((100-obj.gpm)/100)).toFixed(2); //Calculate the estimated price by finding which GPM band it should be using then applying the formula       
+                  }    
+            });
             }, function (error) {
                 console.log("Error: " + error.code);
         });
@@ -145,6 +147,7 @@ export default {
   mounted() {
     var itemList = JSON.parse(sessionStorage.getItem('itemInfo'));
     this.displayItems(itemList);
+    var salePricesObject = this.createSalesPrices();
   }
 }
 </script>
